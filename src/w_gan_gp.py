@@ -53,7 +53,7 @@ class W_GAN_GP(GAN):
                 gradients = tf.gradients(self.discriminator(interpolates, reuse=True, scope=scope, **disc_kwargs)[1], [interpolates])[0]
 
             # Reduce over all but the first dimension
-            slopes = tf.sqrt(tf.reduce_sum(tf.square(gradients), reduction_indices=range(1, ndims)))
+            slopes = tf.sqrt(tf.reduce_sum(tf.square(gradients), reduction_indices=list(range(1, ndims))))
             gradient_penalty = tf.reduce_mean((slopes - 1.) ** 2)
             self.loss_d += lam * gradient_penalty
 
@@ -93,7 +93,7 @@ class W_GAN_GP(GAN):
         is_training(True, session=self.sess)
         try:
             # Loop over all batches
-            for _ in xrange(iterations_for_epoch):
+            for _ in range(iterations_for_epoch):
                 for _ in range(discriminator_boost):
                     feed, _, _ = train_data.next_batch(batch_size)
                     z = self.generator_noise_distribution(batch_size, self.noise_dim, **noise_params)

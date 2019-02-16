@@ -39,4 +39,4 @@ class Neural_Net(object):
             warnings.warn('Loaded model\'s epoch doesn\'t match the requested one.')
         else:
             if verbose:
-                print('Model restored in epoch {0}.'.format(epoch))
+                print(('Model restored in epoch {0}.'.format(epoch)))
